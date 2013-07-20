@@ -1,4 +1,4 @@
-garden-pi
-=========
+garden-pi-server
+================
 
-Garden management system using a website and Raspberry PIs
+Server portion of a garden management system which uses Raspberry PIs to monitor and control and a website to manage and report on your garden.
