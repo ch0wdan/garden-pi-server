@@ -1,0 +1,12 @@
+{
+  "name": "garden-pi-router",
+  "description": "Routes sensor readings into the datastore and actuator commands to the actuator controllers.",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "amqp": ">= 0.1.7",
+    "mysql": ">= 2.0.0-alpha8",
+    "async": ">= 0.2.9",
+    "express": "3.x"
+  }
+}
