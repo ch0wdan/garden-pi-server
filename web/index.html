@@ -5,20 +5,10 @@
     <meta charset="utf-8">
     <title>Garden pi</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- ICanHaz Templates -->
-    <script type="text/html" id="list-trips-page-template">
-        <div id="listTrips">
-            <h1>Choose Flight</h1>
-            <table id="trip-list" class="data-list" cellspacing="0" cellpadding="0">
-                    <tr><th>Name</th><th>Start Time</th><th>Has Started</th><th>Is Complete</th></tr>
-            </table>
-        </div>
-    </script>
-
-
+    
     <!-- CSS -->
     <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/glyphicons.css" rel="stylesheet">
     <style type="text/css">
 
       body, .nav-tabs > li.active > a, .nav-tabs > a, a {
@@ -48,6 +38,31 @@
       h1 {
         font-size: 24px;
       }
+      h2 {
+        font-size: 21px;
+      }      
+      h3 {
+        font-size: 18px;
+      }
+      #tabMenu{
+        display:none;
+      }
+      .start-menu-item{
+        line-height:48px;
+        font-size:24px;
+        font-weight:bold;
+      }
+      .start-menu{
+        list-style-type: none;
+        margin:auto;
+        padding:auto;
+        width:250px;
+      }
+      #startPage {
+        margin:auto;
+        padding:auto;
+        padding-top:40px;
+      }
 
 
     </style>
@@ -61,57 +76,92 @@
         <img src="img/banner_logo.png" style="float:left;"/>
         <div style="float:right;margin-top:10px;">
         <span style="font-weight:bold;">Location:</span>
-        <div class="btn-group">
-            <button class="btn btn-action dropdown-toggle" data-toggle="dropdown">Cam's House <span class="caret"></span></button>
-            <ul class="dropdown-menu">
-              <li><a href="#">Mom's House</a></li>
-            </ul>
+        <div class="btn-group" id="location-selector-container">
+            <!-- Templated from "location-selector-template" -->
         </div>
         </div>
         <img src="img/banner_grass.png" />
       </div>      
-      <div class="tabbable tabs-left">
+      <div id="startPage">
+            <!-- Templated from "start-page-template" -->
+      </div>
+      <div id="tabMenu" class="tabbable tabs-left">
         <ul class="nav nav-tabs">
-          <li class="active"><a href="#tab1" data-toggle="tab"><i class="icon-fire"></i><span class="tabName">Temperatures</span></a></li>
-          <li><a href="#tab2" data-toggle="tab"><i class="icon-tint"></i><span class="tabName">Soil Moisture</span></a></li>
-          <li><a href="#tab3" data-toggle="tab"><i class="icon-star"></i><span class="tabName">Events</span></a></li>
-          <li><a href="#tab4" data-toggle="tab"><i class="icon-list-alt"></i><span class="tabName">Full Report</span></a></li>
-          <li><a href="#tab5" data-toggle="tab"><i class="icon-wrench"></i><span class="tabName">Garden Control</span></a></li>
+          <li><a href="#temperatures" data-toggle="tab"><i class="icon-fire"></i><span class="tabName">Temperatures</span></a></li>
+          <li><a href="#soil" data-toggle="tab"><i class="icon-tint"></i><span class="tabName">Soil Moisture</span></a></li>
+          <li><a href="#events" data-toggle="tab"><i class="icon-star"></i><span class="tabName">Events</span></a></li>
+          <li><a href="#fullReport" data-toggle="tab"><i class="icon-list-alt"></i><span class="tabName">Full Report</span></a></li>
+          <li><a href="#control" data-toggle="tab"><i class="icon-wrench"></i><span class="tabName">Garden Control</span></a></li>
         </ul>
         <div class="tab-content">
-          <div class="tab-pane active" id="tab1">
+          <div class="tab-pane" id="temperatures">
             <h1>Temperatures</h1>
+            <div id="content-temp"></div>
           </div>
-          <div class="tab-pane" id="tab2">
+          <div class="tab-pane" id="soil">
             <h1>Soil Moisture</h1>
+            <div id="content-soil"></div>
           </div>
-          <div class="tab-pane" id="tab3">
+          <div class="tab-pane" id="events">
             <h1>Events</h1>
+            <div id="content-events"></div>
           </div>
-          <div class="tab-pane" id="tab4">
+          <div class="tab-pane" id="fullReport">
             <h1>Full Report</h1>
+            <div id="content-fullReport"></div>
           </div>
-          <div class="tab-pane" id="tab5">
+          <div class="tab-pane" id="control">
             <h1>Garden Control</h1>
+            <div id="content-control"></div>
           </div>
         </div>
       </div>
     </div>
-
-    <script src="js/jquery-1.10.2.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/underscore-min.js"></script>
-    <script src="js/backbone-min.js"></script>
-    <script src="js/garden-pi.js"></script>
+  </body>
+  
+  
+    <!-- ICanHaz Templates -->
+    <script type="text/html" id="location-selector-template">
+        <div class="btn-group">
+            <button class="btn btn-action dropdown-toggle" data-toggle="dropdown">{{topLevel.selectedName}}&nbsp;<span class="caret"></span></button>
+            <ul class="dropdown-menu">
+                {{# topLevel.locations}}
+                <li><a href="#locations/{{id}}/{{topLevel.currentPage}}">{{name}}</a></li>
+                {{/ topLevel.locations}}
+            </ul>
+        </div>
+    </script>
     
+    <script type="text/html" id="start-page-template">
+        <ul class="start-menu">
+        <li><a href="#locations/{{id}}/temperatures" class="start-menu-item"><i class="glyphicons-icon fire"></i>Temperatures</a></li>
+        <li><a href="#locations/{{id}}/soil" class="start-menu-item"><i class="glyphicons-icon tint"></i>Soil Moisture</a></li>
+        <li><a href="#locations/{{id}}/events" class="start-menu-item"><i class="glyphicons-icon star"></i>Events</a></li>
+        <li><a href="#locations/{{id}}/fullReport" class="start-menu-item"><i class="glyphicons-icon stats"></i>Full Report</a></li>
+        <li><a href="#locations/{{id}}/control" class="start-menu-item"><i class="glyphicons-icon wrench"></i>Garden Control</a></li>
+        </ul>
+    </script>
+    
+    <script type="text/html" id="chart-template">
+        <div id="{{type}}_{{id}}">
+            <h3>{{name}}</h3>
+            <div id="{{type}}_{{id}}_chart" class="chart" />
+        </div>
+    </script>
+
+    <!-- Javascript -->
+    <script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/underscore-min.js"></script>
+    <script type="text/javascript" src="js/backbone-min.js"></script>
+    <script type="text/javascript" src="js/ICanHaz.min.js"></script>
+    <script type="text/javascript" src="js/highcharts.js"></script>
+    <script type="text/javascript" src="js/garden-pi.js"></script>
+
     <script  type="text/javascript">
         $(function(){
-            //get default location for user.
-            var router = new garden-pi.router();
-            Backbone.history.start();
-            router.navigate("/locations/{default}", {trigger: true, replace: true});
+            var router = new garden_pi.router();
         });
     </script> 
-    
-  </body>
+
 </html>
